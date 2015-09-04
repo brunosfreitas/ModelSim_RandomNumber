@@ -12,6 +12,7 @@
     <script src="bootstrap/js/bootstrap.js"></script>
 
     <script>
+
         $(function () {
             $('#container').highcharts({
                 chart: {
@@ -166,14 +167,26 @@
                 i;
 
 
-            for (i = 0; i <= 999; i += 1) {
+            for (i = 0; i <= 900; i += 1) {
                 data.push({
                     //calculo esta errado, nao eh pra ir 170 ate 190 e sim de 150 ate 190
-                    x: Math.random() * deslocamentoAltura + baseAltura,
-                    y: Math.random() * deslocamentoPeso + basePeso
+                    x: calculateRandomNumber() * deslocamentoAltura + baseAltura,
+                    y: calculateRandomNumber() * deslocamentoPeso + basePeso
                 });
             }
             return data;
+
+        };
+
+
+        var seed_x0 = 123456;
+        var last_random_sort = seed_x0;
+        var a = Math.pow(7,5);
+        var prime_number = 2147483647;
+
+        function calculateRandomNumber(){
+            last_random_sort = (a * last_random_sort)%prime_number;
+            return last_random_sort/Math.pow(2, 31);
         }
     </script>
 </head>
