@@ -137,8 +137,22 @@
                     color: 'rgba(119, 152, 191, .5)',
                     data:  (function () {
                         return calculateSeries();
-                    }())
-                }
+                        }())
+                },{
+                        type: 'line',
+                        name: 'Regression Line',
+                        color: 'rgba(191, 152, 119, .5)',
+                        data: [[150, 60], [170, 100]],
+                        marker: {
+                            enabled: false
+                        },
+                        states: {
+                            hover: {
+                                lineWidth: 0
+                            }
+                        },
+                        enableMouseTracking: true
+                    }
                 ]
             });
 
