@@ -11,13 +11,45 @@
 
     <script>
 
-        function executarSimulador() {
+        function executar_simulacao() {
 
+            // Quantos canais totais
             canais_c1 = parseInt($("#canais_c1").val());
+            canais_c2 = parseInt($("#canais_c1").val());
+
+            // Atualizar as porcentagens
+            atualizarPorcentagensTorreC1();
+            atualizarPorcentagensTorreC2();
+
+            // Obter as porcentagens
+            chamadas_c1c1 = parseInt($("#chamadas_c1c1").val());
+            chamadas_c1c2 = parseInt($("#chamadas_c1c2").val());
+            chamadas_c1fa = parseInt($("#chamadas_c1fa").val());
+
+            chamadas_c2c2 = parseInt($("#chamadas_c2c2").val());
+            chamadas_c2c1 = parseInt($("#chamadas_c2c1").val());
+            chamadas_c2fa = parseInt($("#chamadas_c2fa").val());
+
+            // Distribuição dos Tempos Entre Chamadas
+            tipo_tempo_entre_chamadas_torre_c1 = $( "#tipo_tempo_entre_chamadas_torre_c1 option:selected" ).text();
+            tipo_tempo_entre_chamadas_torre_c2 = $( "#tipo_tempo_entre_chamadas_torre_c2 option:selected" ).text();
+
+            tempo_entre_chamadas_arg_torre_c1 = parseInt($("#tempo_entre_chamadas_arg_torre_c1").val());
+            tempo_entre_chamadas_arg_torre_c2 = parseInt($("#tempo_entre_chamadas_arg_torre_c2").val());
 
 
+            // Distribuição da Duração de Chamadas
+            tipo_duracao_chamadas_torre_c1 = $( "#tipo_duracao_chamadas_torre_c1 option:selected" ).text();
+            tipo_duracao_chamadas_torre_c2 = $( "#tipo_duracao_chamadas_torre_c2 option:selected" ).text();
+
+            duracao_da_chamada_arg1_torre_c1 = parseInt($("#duracao_da_chamada_arg1_torre_c1").val());
+            duracao_da_chamada_arg2_torre_c1 = parseInt($("#duracao_da_chamada_arg2_torre_c1").val());
+            duracao_da_chamada_arg3_torre_c1 = parseInt($("#duracao_da_chamada_arg3_torre_c1").val());
+
+            duracao_da_chamada_arg1_torre_c2 = parseInt($("#duracao_da_chamada_arg1_torre_c2").val());
+            duracao_da_chamada_arg2_torre_c2 = parseInt($("#duracao_da_chamada_arg2_torre_c2").val());
+            duracao_da_chamada_arg3_torre_c2 = parseInt($("#duracao_da_chamada_arg3_torre_c2").val());
         }
-        ;
 
 
         function atualizarPorcentagensTorreC1() {
@@ -57,9 +89,9 @@
             $('#progress_c1c2').width(chamadas_c1c2 + '%');
             $('#progress_c1fa').width(chamadas_c1fa + '%');
         }
-        ;
 
-        function atualizarPorcentagensTorreC1() {
+
+        function atualizarPorcentagensTorreC2() {
 
             var chamadas_c2c2 = parseInt($("#chamadas_c2c2").val());
             var chamadas_c2c1 = parseInt($("#chamadas_c2c1").val());
@@ -93,21 +125,20 @@
             $("#chamadas_c2fa").val(chamadas_c2fa);
 
             $('#progress_c2c2').width(chamadas_c2c2 + '%');
-            $('#progress_c2c1').width(chamadas_c2c2 + '%');
+            $('#progress_c2c1').width(chamadas_c2c1 + '%');
             $('#progress_c2fa').width(chamadas_c2fa + '%');
 
         }
-        ;
 
 
         function tempoEntreChamadas(funcExpo, valor) {
-            if (funcExpo == true) {
+            if (funcExpo == "Exponencial") {
                 return Math.exp(valor);
             }
             return valor;
         }
 
-        function duracaoDaChamda(tipo, arg1, arg2, arg3) {
+        function duracaoDaChamada(tipo, arg1, arg2, arg3) {
 
             switch (tipo) {
                 // Normal
@@ -266,21 +297,9 @@
 
     <h3>Torre C2</h3>
 
-    <div class="row">
-        <div class="col-md-10">
-            <label for="canais_c2">Numero de Canais</label>
-            <input type="number" class="form-control" id="canais_c2" value="20">
-        </div>
-        <div class="col-md-2 pull-right">
-            <label class="pull-right" for="chamadas_c1c1">Aplicar</label>
+    <label for="canais_c2">Numero de Canais</label>
+    <input type="number" class="form-control" id="canais_c2" value="20">
 
-            <div class="input-group pull-right">
-                <button id="apply_c2" type="button" class="btn btn-default" aria-label="Apply C1">
-                    <span class="glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <br>
     <!--Porcentagens-->
@@ -395,6 +414,16 @@
 
 </div>
 <!-- Torre c2 CHAMADAS -->
+</div>
+
+<hr>
+<br>
+
+<div id="button_run">
+    <!-- Indicates a successful or positive action -->
+    <button type="button" id="button_executar_simulacao" class="btn btn-success center-block"
+            onclick="executar_simulacao()">Executar Simulação
+    </button>
 </div>
 
 </div>
