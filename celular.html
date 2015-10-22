@@ -13,6 +13,9 @@
 
         function executar_simulacao() {
 
+            // Tempo de Simulacao
+            tempo_de_simulacao = parseInt($("#tempo_de_simulacao").val());
+
             // Quantos canais totais
             canais_c1 = parseInt($("#canais_c1").val());
             canais_c2 = parseInt($("#canais_c1").val());
@@ -49,6 +52,14 @@
             duracao_da_chamada_arg1_torre_c2 = parseInt($("#duracao_da_chamada_arg1_torre_c2").val());
             duracao_da_chamada_arg2_torre_c2 = parseInt($("#duracao_da_chamada_arg2_torre_c2").val());
             duracao_da_chamada_arg3_torre_c2 = parseInt($("#duracao_da_chamada_arg3_torre_c2").val());
+
+            
+
+            for(tempoa_atual = 0; tempo_atual <= tempo_de_simulacao; tempoa_atual++ ){
+
+            }
+
+
         }
 
 
@@ -169,6 +180,10 @@
 <div class="container-fluid">
 
 <div class="col-md-offset-1 col-md-10" id="tools">
+
+<h3>Tempo de Simulação</h3>
+<input type="number" class="form-control" id="tempo_de_simulacao" value="5000">
+
 <div id="body_configurations" class="row">
 <!--Torre C1 PORCENTAGENS-->
 <div class="col-md-6">
