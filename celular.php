@@ -109,13 +109,13 @@ error_reporting(E_ALL);
             <select id="tipo_tempo_entre_chamadas_torre_c1" name="tipo_tempo_entre_chamadas_torre_c1"
                     class="form-control">
                 <option>Exponencial</option>
-                <option>Constante</option>
+                <option selected>Constante</option>
             </select>
         </div>
         <div class="col-md-6 form-group">
             <label for="tempo_entre_chamadas_arg_torre_c1">Argumento</label>
             <input type="text" class="form-control" id="tempo_entre_chamadas_arg_torre_c1"
-                   name="tempo_entre_chamadas_arg_torre_c1" value="15">
+                   name="tempo_entre_chamadas_arg_torre_c1" value="3">
         </div>
     </div>
 
@@ -132,7 +132,7 @@ error_reporting(E_ALL);
         <option>Uniforme</option>
         <option>Exponencial</option>
         <option>Triangular</option>
-        <option>Constante</option>
+        <option selected>Constante</option>
     </select>
     <br>
 
@@ -324,8 +324,12 @@ define("CHAMADA_C2FA", 20);
 define("ENTRADA", 50);
 define("SAIDA", 60);
 
+define("SEM_CANAL_LIVRE_C1", 71);
+define("SEM_CANAL_LIVRE_C2", 72);
+
 
 $tempo_de_simulacao = $_POST["tempo_de_simulacao"];
+$chamadas_criadas = 0;
 
 $canais_c1 = intval($_POST['canais_c1']);
 $canais_livres_c1 = $canais_c1;
@@ -362,10 +366,13 @@ $duracao_da_chamada_arg3_torre_c2 = intval($_POST['duracao_da_chamada_arg3_torre
 
 
 $array_cronograma = array_fill(0, $tempo_de_simulacao, array());
+$array_estatisticas = array_fill(0, $tempo_de_simulacao, array());
 
+$log_to_string = "";
 
-criacao_de_chamada(TORRE_C1, 0);
-criacao_de_chamada(TORRE_C2, 0);
+criacao_de_chamada(TORRE_C2, 0, 0);
+criacao_de_chamada(TORRE_C1, 0, 0);
+
 
 // Geração das Chamadas
 for ($tempo_atual = 0; $tempo_atual <= $tempo_de_simulacao; $tempo_atual++) {
@@ -374,37 +381,67 @@ for ($tempo_atual = 0; $tempo_atual <= $tempo_de_simulacao; $tempo_atual++) {
 
         foreach ($array_cronograma[$tempo_atual] as $key => $evento) {
 
+            $torre = constante_to_string($evento['torre']);
+            $tipo = constante_to_string($evento['tipo']);
+            $duracao = $evento['duracao'];
+            $entrada_50 = constante_to_string($evento['entrada_50']);
+            $sem_canal_livre = constante_to_string($evento['sem_canal_livre']);
+            $id_chamada = $evento['id_chamada'];
+
+            $cor = '';
+            if($evento['sem_canal_livre'])
+                $cor = 'warning';
+
+
+
+            $log_to_string = $log_to_string . "<tr class=$cor>
+                                                    <td>$tempo_atual</td>
+                                                    <td>$id_chamada</td>
+                                                    <td>$torre</td>
+                                                    <td>$tipo</td>
+                                                    <td>$duracao</td>
+                                                    <td>$entrada_50</td>
+                                                    <td>$sem_canal_livre</td>
+                                               </tr>";
+
+
+            if ($evento["torre"] == TORRE_C1) {
+                if ($evento["entrada_50"] == ENTRADA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C1) {
+                    $canais_livres_c1--;
+                }
+
+                if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C1) {
+                    $canais_livres_c1++;
+                }
+            }
+
+            if ($evento["torre"] == TORRE_C1) {
+                if ($evento["entrada_50"] == ENTRADA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
+                    $canais_livres_c2--;
+                }
+
+                if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
+                    $canais_livres_c2++;
+                }
+            }
+
             if ($evento["entrada_50"] == ENTRADA && !array_key_exists('half', $evento)) {
                 if ($evento["torre"] == TORRE_C1) {
                     if ($canais_livres_c1 > 0) {
-                        criacao_de_chamada($evento['torre'], $tempo_atual);
+                        criacao_de_chamada($evento['torre'], $tempo_atual, 0);
                     } else {
+                        criacao_de_chamada($evento['torre'], $tempo_atual, SEM_CANAL_LIVRE_C1);
                         $chamadas_perdidas_sem_canal_c1++;
                     }
                 }
 
                 if ($evento["torre"] == TORRE_C2) {
                     if ($canais_livres_c2 > 0) {
-                        criacao_de_chamada($evento['torre'], $tempo_atual);
+                        criacao_de_chamada($evento['torre'], $tempo_atual, 0);
                     } else {
+                        criacao_de_chamada($evento['torre'], $tempo_atual, SEM_CANAL_LIVRE_C2);
                         $chamadas_perdidas_sem_canal_c2++;
                     }
-                }
-            }
-
-            if ($evento["torre"] == TORRE_C1) {
-                if ($evento["entrada_50"] == ENTRADA) {
-                    $canais_livres_c1--;
-                } else {
-                    $canais_livres_c1++;
-                }
-            }
-
-            if ($evento["torre"] == TORRE_C1) {
-                if ($evento["entrada_50"] == ENTRADA) {
-                    $canais_livres_c2--;
-                } else {
-                    $canais_livres_c2++;
                 }
             }
 
@@ -412,23 +449,35 @@ for ($tempo_atual = 0; $tempo_atual <= $tempo_de_simulacao; $tempo_atual++) {
         }
     }
 
+
+    // Estatísticas
+    array_push($array_estatisticas[$tempo_atual], array("canais_livres_c1" => $canais_livres_c1, "canais_livres_c2" => $canais_livres_c2));
+
 }
 
 
 var_dump($array_cronograma, $chamadas_perdidas_sem_canal_c1, $chamadas_perdidas_sem_canal_c2);
+var_dump($array_estatisticas);
 
-
-function criacao_de_chamada($torre, $tempo_atual)
+function criacao_de_chamada($torre, $tempo_atual, $sem_canal)
 {
 
     global $array_cronograma;
+    global $chamadas_criadas;
+
+    $chamadas_criadas++;
 
     $tempo = sortear_proximo_tempo($torre) + $tempo_atual;
     $tipo = sortear_tipo_de_chamada($torre);
     $duracao = sortear_duracao_chamada($torre);
+
+    if($sem_canal == SEM_CANAL_LIVRE_C1 || $sem_canal == SEM_CANAL_LIVRE_C2){
+        $duracao = 0;
+    }
+
     $duracao_metade = intval($duracao / 2);
 
-//            var_dump($tempo, $tipo, $duracao_metade, $duracao);
+    var_dump("tempo " . $tempo, "tipo " . $tipo, "metade " . $duracao_metade, "duracao " . $duracao);
 
     if ($torre == TORRE_C1) {
         if ($tipo == CHAMADA_C1C1) {
@@ -436,15 +485,19 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
         }
 
@@ -453,31 +506,39 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
                     "half" => true,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade + $duracao_metade], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
                     "half" => true,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
         }
 
@@ -486,15 +547,19 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
         }
     }
@@ -505,14 +570,18 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
             if (array_key_exists($tempo + $duracao, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
         }
 
@@ -521,29 +590,37 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
                     "half" => true,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
             if (array_key_exists($tempo + $duracao_metade + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade + $duracao_metade], array("torre" => TORRE_C1,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
                     "half" => true,
-                    "entrada_50" => SAIDA));
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
 
         }
 
@@ -552,16 +629,19 @@ function criacao_de_chamada($torre, $tempo_atual)
             if (array_key_exists($tempo, $array_cronograma))
                 array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => $duracao_metade,
-                    "entrada_50" => ENTRADA));
+                    "entrada_50" => ENTRADA,
+                    "sem_canal_livre" => $sem_canal));
 
 
             if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
                 array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
                     "tipo" => $tipo,
+                    "id_chamada" => $chamadas_criadas,
                     "duracao" => 0,
-                    "entrada_50" => SAIDA));
-
+                    "entrada_50" => SAIDA,
+                    "sem_canal_livre" => $sem_canal));
         }
     }
 
@@ -577,16 +657,18 @@ function sortear_proximo_tempo($torre)
     global $tempo_entre_chamadas_arg_torre_c1;
     global $tempo_entre_chamadas_arg_torre_c2;
 
+    var_dump($tipo_tempo_entre_chamadas_torre_c1, $tempo_entre_chamadas_arg_torre_c1);
+
 
     if ($torre == TORRE_C1) {
-        if (strcmp($tipo_tempo_entre_chamadas_torre_c1, 'Constante')) {
+        if (strcmp($tipo_tempo_entre_chamadas_torre_c1, 'Constante') == 0) {
             return $tempo_entre_chamadas_arg_torre_c1;
         }
         return exponencial($tempo_entre_chamadas_arg_torre_c1);
     }
 
     if ($torre == TORRE_C2) {
-        if (strcmp($tipo_tempo_entre_chamadas_torre_c2, 'Constante')) {
+        if (strcmp($tipo_tempo_entre_chamadas_torre_c2, 'Constante') == 0) {
             return $tempo_entre_chamadas_arg_torre_c2;
         }
         return exponencial($tempo_entre_chamadas_arg_torre_c2);
@@ -637,23 +719,23 @@ function sortear_duracao_chamada($torre)
 
     if ($torre == TORRE_C1) {
 
-        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Normal')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Normal') == 0) {
             return normal($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Uniforme')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Uniforme') == 0) {
             return uniforme($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Exponencial')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Exponencial') == 0) {
             return exponencial($duracao_da_chamada_arg1_torre_c1);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Triangular')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Triangular') == 0) {
             return triangular($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1, $duracao_da_chamada_arg3_torre_c1);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Constante')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Constante') == 0) {
             return $duracao_da_chamada_arg1_torre_c1;
         }
 
@@ -661,23 +743,23 @@ function sortear_duracao_chamada($torre)
     }
 
     if ($torre == TORRE_C2) {
-        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Normal')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Normal') == 0) {
             return normal($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Uniforme')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Uniforme') == 0) {
             return uniforme($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Exponencial')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Exponencial') == 0) {
             return exponencial($duracao_da_chamada_arg1_torre_c2);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Triangular')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Triangular') == 0) {
             return triangular($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2, $duracao_da_chamada_arg3_torre_c2);
         }
 
-        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Constante')) {
+        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Constante') == 0) {
             return $duracao_da_chamada_arg1_torre_c2;
         }
     }
@@ -735,9 +817,71 @@ function triangular($a, $b, $c)
 
 }
 
+function constante_to_string($constante)
+{
+
+    switch ($constante) {
+        case TORRE_C1:
+            return "TORRE C1";
+        case TORRE_C2:
+            return "TORRE C2";
+
+        case CHAMADA_C1C1:
+            return "CHAMADA C1C1";
+        case CHAMADA_C1C2:
+            return "CHAMADA C1C2";
+        case CHAMADA_C1FA:
+            return "CHAMADA C1FA";
+        case CHAMADA_C2C2:
+            return "CHAMADA C2C2";
+        case CHAMADA_C2C1:
+            return "CHAMADA C2C1";
+        case CHAMADA_C2FA:
+            return "CHAMADA C2FA";
+
+        case ENTRADA:
+            return "ENTRADA";
+        case SAIDA:
+            return "SAIDA";
+
+        case SEM_CANAL_LIVRE_C1:
+            return "SEM CANAL LIVRE C1";
+        case SEM_CANAL_LIVRE_C2:
+            return "SEM CANAL LIVRE C2";
+        default:
+            return " - ";
+    }
+}
+
 ?>
 </div>
 </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <td>Tempo Atual</td>
+                    <td>ID Chamada</td>
+                    <td>Torre</td>
+                    <td>Tipo</td>
+                    <td>Duracao</td>
+                    <td>Evento</td>
+                    <td>Rejeitada</td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                echo $log_to_string;
+                ?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 
 
 </div>

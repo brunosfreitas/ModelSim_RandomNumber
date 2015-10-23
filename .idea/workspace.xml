@@ -38,7 +38,7 @@
       <file leaf-file-name="celular.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/celular.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="393" column="0" selection-start="13701" selection-end="13701" vertical-scroll-proportion="0.49072754" vertical-offset="5551" max-vertical-offset="11250">
+            <state line="474" column="21" selection-start="16698" selection-end="16698" vertical-scroll-proportion="0.18972896" vertical-offset="6977" max-vertical-offset="13410">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -46,6 +46,7 @@
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <marker date="1445642011968" expanded="true" signature="13715:14271" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -297,6 +298,7 @@
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <marker date="1445642011968" expanded="true" signature="13715:14271" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -357,7 +359,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/celular.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="393" column="0" selection-start="13701" selection-end="13701" vertical-scroll-proportion="0.49072754" vertical-offset="5551" max-vertical-offset="11250">
+        <state line="474" column="21" selection-start="16698" selection-end="16698" vertical-scroll-proportion="0.18972896" vertical-offset="6977" max-vertical-offset="13410">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -365,6 +367,7 @@
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <marker date="1445642011968" expanded="true" signature="13715:14271" placeholder="..." />
           </folding>
         </state>
       </provider>
