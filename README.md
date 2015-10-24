@@ -1,7 +1,7 @@
 # ModelSim_RandomNumber
 
 ##Simulador de sistema de telefonia celular
-###Modelagem e Simulação - UFSC 2015/2 - Bruno Freitas e Gustavo Ferreira
+*Modelagem e Simulação - UFSC 2015/2 - Bruno Freitas e Gustavo Ferreira*
 
 Como Utilizar:
 
@@ -35,6 +35,16 @@ Como Utilizar:
  
  Uma tabela com todas as ocorrencias da fila do simulador.
  
+ 
+ ## Diagrama de fluxo 
+ 
+Após obter os dados do usuário o sistema cria um array contendo os tempos de 0 a "tempo de simulação". Em seguida ele gera as primeiras chamadas em C1 e C2. Quando uma chamada é terminada (SAIDA) uma nova chamada é criada para aquela torre. E assim o programa itera sobre este array verificando as saidas de chamadas e gerando suas estatísticas e atualizando estatísticas globais e criando uma nova chamada.
+
+** Criação de uma Chamada ** 
+Ao criar uma chamada primeiro é sorteado o seu *tempo de entrada*, qual o *tipo de chamada* (C1C1, C1C2, C1FA...) e o tempo de *duração da Chamada*. Ao criar uma chamada sua saída também é adicionada, e se ela migra de torre ou tem seu tempo cortado por fora de área estes requisitos também são considerados.
+
+
+Ao termino do tempo de execução o programa verifica os dados de estatísticas e gera a os dados finais e a tabela de execução.
  
 
 
