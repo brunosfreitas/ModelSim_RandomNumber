@@ -334,6 +334,8 @@ $chamadas_criadas = 0;
 $canais_c1 = intval($_POST['canais_c1']);
 $canais_livres_c1 = $canais_c1;
 $chamadas_perdidas_sem_canal_c1 = 0;
+$chamadas_completadas_c1 = 0;
+$chamadas_perdidas_fa_c1 = 0;
 
 $chamadas_c1c1 = intval($_POST['chamadas_c1c1']);
 $chamadas_c1c2 = intval($_POST['chamadas_c1c2']);
@@ -350,7 +352,8 @@ $duracao_da_chamada_arg3_torre_c1 = intval($_POST['duracao_da_chamada_arg3_torre
 $canais_c2 = intval($_POST['canais_c2']);
 $canais_livres_c2 = $canais_c2;
 $chamadas_perdidas_sem_canal_c2 = 0;
-
+$chamadas_completadas_c2 = 0;
+$chamadas_perdidas_fa_c2 = 0;
 
 $chamadas_c2c2 = intval($_POST['chamadas_c2c2']);
 $chamadas_c2c1 = intval($_POST['chamadas_c2c1']);
@@ -412,16 +415,26 @@ for ($tempo_atual = 0; $tempo_atual <= $tempo_de_simulacao; $tempo_atual++) {
 
                 if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C1) {
                     $canais_livres_c1++;
+                    if($evento["tipo"] != CHAMADA_C1FA){
+                        $chamadas_completadas_c1++;
+                    }else{
+                        $chamadas_perdidas_fa_c1++;
+                    }
                 }
             }
 
-            if ($evento["torre"] == TORRE_C1) {
+            if ($evento["torre"] == TORRE_C2) {
                 if ($evento["entrada_50"] == ENTRADA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
                     $canais_livres_c2--;
                 }
 
                 if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
                     $canais_livres_c2++;
+                    if($evento["tipo"] != CHAMADA_C2FA){
+                        $chamadas_completadas_c2++;
+                    }else{
+                        $chamadas_perdidas_fa_c2++;
+                    }
                 }
             }
 
@@ -861,6 +874,25 @@ function constante_to_string($constante)
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
+            
+            <h3><strong>Chamadas Completas C1: </strong><?=$chamadas_completadas_c1?></h3>
+            <h3><strong>Chamadas Completas C2: </strong><?=$chamadas_completadas_c2?></h3>
+            <h3><strong>Chamadas Completas Total: </strong><?=$chamadas_completadas_c1 + $chamadas_completadas_c2?></h3>
+            
+            <br/>
+            <h3><strong>Chamadas perdidas falta de canal C1: </strong><?=$chamadas_perdidas_sem_canal_c1?></h3>
+            <h3><strong>Chamadas perdidas falta de canal de comunicação C2: </strong><?=$chamadas_perdidas_sem_canal_c2?></h3>
+            <h3><strong>Chamadas perdidas falta de canal de comunicação Total: </strong><?=$chamadas_perdidas_sem_canal_c1 + $chamadas_perdidas_sem_canal_c2?></h3>
+            
+            <br/>
+            <h3><strong>Chamadas perdidas fora de cobertura C1: </strong><?=$chamadas_perdidas_fa_c1?></h3>
+            <h3><strong>Chamadas perdidas fora de cobertura C2: </strong><?=$chamadas_perdidas_fa_c2?></h3>
+            <h3><strong>Chamadas perdidas fora de cobertura Total: </strong><?=$chamadas_perdidas_fa_c1 + $chamadas_perdidas_fa_c2?></h3>
+            
+            Chamadas perdidas por falta de canal de comunicação devido a
+deslocamento par fora da área de cobertura.
+
+            
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>

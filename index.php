@@ -1,3 +1,9 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -5,234 +11,965 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="jquery/jquery-1.11.1.min.js"></script>
-    <script src="highcharts/highcharts.js"></script>
-    <script src="highcharts/highcharts-more.js"></script>
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css.map">
     <script src="bootstrap/js/bootstrap.js"></script>
 
-    <script>
-
-        $(function () {
-            $('#container').highcharts({
-                chart: {
-                    type: 'scatter',
-                    zoomType: 'xy'
-                },
-                title: {
-                    text: 'Height Versus Weight of 507 Individuals by Gender'
-                },
-                subtitle: {
-                    text: 'Source: Heinz  2003'
-                },
-                xAxis: {
-                    title: {
-                        enabled: true,
-                        text: 'Height (cm)'
-                    },
-                    startOnTick: true,
-                    endOnTick: true,
-                    showLastLabel: true
-                },
-                yAxis: {
-                    title: {
-                        text: 'Weight (kg)'
-                    }
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    verticalAlign: 'top',
-                    x: 100,
-                    y: 70,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-                    borderWidth: 1
-                },
-                plotOptions: {
-                    scatter: {
-                        marker: {
-                            radius: 5,
-                            states: {
-                                hover: {
-                                    enabled: true,
-                                    lineColor: 'rgb(100,100,100)'
-                                }
-                            }
-                        },
-                        states: {
-                            hover: {
-                                marker: {
-                                    enabled: false
-                                }
-                            }
-                        },
-                        tooltip: {
-                            headerFormat: '<b>{series.name}</b><br>',
-                            pointFormat: '{point.x} cm, {point.y} kg'
-                        }
-                    }
-                },
-                series:
-                    [{
-//                    name: 'Female',
-//                    color: 'rgba(223, 83, 83, .5)',
-//                    data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
-//                        [170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
-//                        [172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
-//                        [147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
-//                        [159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
-//                        [174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
-//                        [154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
-//                        [162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
-//                        [168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
-//                        [167.6, 58.3], [165.1, 56.2], [160.0, 50.2], [170.0, 72.9], [157.5, 59.8],
-//                        [167.6, 61.0], [160.7, 69.1], [163.2, 55.9], [152.4, 46.5], [157.5, 54.3],
-//                        [168.3, 54.8], [180.3, 60.7], [165.5, 60.0], [165.0, 62.0], [164.5, 60.3],
-//                        [156.0, 52.7], [160.0, 74.3], [163.0, 62.0], [165.7, 73.1], [161.0, 80.0],
-//                        [162.0, 54.7], [166.0, 53.2], [174.0, 75.7], [172.7, 61.1], [167.6, 55.7],
-//                        [151.1, 48.7], [164.5, 52.3], [163.5, 50.0], [152.0, 59.3], [169.0, 62.5],
-//                        [164.0, 55.7], [161.2, 54.8], [155.0, 45.9], [170.0, 70.6], [176.2, 67.2],
-//                        [170.0, 69.4], [162.5, 58.2], [170.3, 64.8], [164.1, 71.6], [169.5, 52.8],
-//                        [163.2, 59.8], [154.5, 49.0], [159.8, 50.0], [173.2, 69.2], [170.0, 55.9],
-//                        [161.4, 63.4], [169.0, 58.2], [166.2, 58.6], [159.4, 45.7], [162.5, 52.2],
-//                        [159.0, 48.6], [162.8, 57.8], [159.0, 55.6], [179.8, 66.8], [162.9, 59.4],
-//                        [161.0, 53.6], [151.1, 73.2], [168.2, 53.4], [168.9, 69.0], [173.2, 58.4],
-//                        [171.8, 56.2], [178.0, 70.6], [164.3, 59.8], [163.0, 72.0], [168.5, 65.2],
-//                        [166.8, 56.6], [172.7, 105.2], [163.5, 51.8], [169.4, 63.4], [167.8, 59.0],
-//                        [159.5, 47.6], [167.6, 63.0], [161.2, 55.2], [160.0, 45.0], [163.2, 54.0],
-//                        [162.2, 50.2], [161.3, 60.2], [149.5, 44.8], [157.5, 58.8], [163.2, 56.4],
-//                        [172.7, 62.0], [155.0, 49.2], [156.5, 67.2], [164.0, 53.8], [160.9, 54.4],
-//                        [162.8, 58.0], [167.0, 59.8], [160.0, 54.8], [160.0, 43.2], [168.9, 60.5],
-//                        [158.2, 46.4], [156.0, 64.4], [160.0, 48.8], [167.1, 62.2], [158.0, 55.5],
-//                        [167.6, 57.8], [156.0, 54.6], [162.1, 59.2], [173.4, 52.7], [159.8, 53.2],
-//                        [170.5, 64.5], [159.2, 51.8], [157.5, 56.0], [161.3, 63.6], [162.6, 63.2],
-//                        [160.0, 59.5], [168.9, 56.8], [165.1, 64.1], [162.6, 50.0], [165.1, 72.3],
-//                        [166.4, 55.0], [160.0, 55.9], [152.4, 60.4], [170.2, 69.1], [162.6, 84.5],
-//                        [170.2, 55.9], [158.8, 55.5], [172.7, 69.5], [167.6, 76.4], [162.6, 61.4],
-//                        [167.6, 65.9], [156.2, 58.6], [175.2, 66.8], [172.1, 56.6], [162.6, 58.6],
-//                        [160.0, 55.9], [165.1, 59.1], [182.9, 81.8], [166.4, 70.7], [165.1, 56.8],
-//                        [177.8, 60.0], [165.1, 58.2], [175.3, 72.7], [154.9, 54.1], [158.8, 49.1],
-//                        [172.7, 75.9], [168.9, 55.0], [161.3, 57.3], [167.6, 55.0], [165.1, 65.5],
-//                        [175.3, 65.5], [157.5, 48.6], [163.8, 58.6], [167.6, 63.6], [165.1, 55.2],
-//                        [165.1, 62.7], [168.9, 56.6], [162.6, 53.9], [164.5, 63.2], [176.5, 73.6],
-//                        [168.9, 62.0], [175.3, 63.6], [159.4, 53.2], [160.0, 53.4], [170.2, 55.0],
-//                        [162.6, 70.5], [167.6, 54.5], [162.6, 54.5], [160.7, 55.9], [160.0, 59.0],
-//                        [157.5, 63.6], [162.6, 54.5], [152.4, 47.3], [170.2, 67.7], [165.1, 80.9],
-//                        [172.7, 70.5], [165.1, 60.9], [170.2, 63.6], [170.2, 54.5], [170.2, 59.1],
-//                        [161.3, 70.5], [167.6, 52.7], [167.6, 62.7], [165.1, 86.3], [162.6, 66.4],
-//                        [152.4, 67.3], [168.9, 63.0], [170.2, 73.6], [175.2, 62.3], [175.2, 57.7],
-//                        [160.0, 55.4], [165.1, 104.1], [174.0, 55.5], [170.2, 77.3], [160.0, 80.5],
-//                        [167.6, 64.5], [167.6, 72.3], [167.6, 61.4], [154.9, 58.2], [162.6, 81.8],
-//                        [175.3, 63.6], [171.4, 53.4], [157.5, 54.5], [165.1, 53.6], [160.0, 60.0],
-//                        [174.0, 73.6], [162.6, 61.4], [174.0, 55.5], [162.6, 63.6], [161.3, 60.9],
-//                        [156.2, 60.0], [149.9, 46.8], [169.5, 57.3], [160.0, 64.1], [175.3, 63.6],
-//                        [169.5, 67.3], [160.0, 75.5], [172.7, 68.2], [162.6, 61.4], [157.5, 76.8],
-//                        [176.5, 71.8], [164.4, 55.5], [160.7, 48.6], [174.0, 66.4], [163.8, 67.3]]
-//
-//                }
-//                ,
-//                {
-                    name: 'Male',
-                    color: 'rgba(119, 152, 191, .5)',
-                    data:  (function () {
-                        return calculateSeries();
-                        }())
-                },{
-                        type: 'line',
-                        name: 'Regression Line',
-                        color: 'rgba(191, 152, 119, .5)',
-                        data: [[150, 60], [170, 100]],
-                        marker: {
-                            enabled: false
-                        },
-                        states: {
-                            hover: {
-                                lineWidth: 0
-                            }
-                        },
-                        enableMouseTracking: true
-                    }
-                ]
-            });
-
-            $('#refresh').click(function () {
-                var chart = $('#container').highcharts();
-                chart.series[0].remove();
-                chart.addSeries({
-                    name: "Male",
-                    color: 'rgba(119, 152, 191, .5)',
-                    data: (function () {
-                        return calculateSeries();
-                    }())
-                }, false);
-
-                chart.redraw();
-            });
-
-        });
-
-        function calculateSeries() {
-            var data = [],
-                baseAltura = parseInt($('#base_altura').val()),
-                deslocamentoAltura =  parseInt($('#deslocamento_altura').val()),
-                basePeso = parseInt($('#base_peso').val()),
-                deslocamentoPeso = parseInt($('#deslocamento_peso').val()),
-                i;
-
-
-            for (i = 0; i <= 900; i += 1) {
-                data.push({
-                    //calculo esta errado, nao eh pra ir 170 ate 190 e sim de 150 ate 190
-                    x: calculateRandomNumber() * deslocamentoAltura + baseAltura,
-                    y: calculateRandomNumber() * deslocamentoPeso + basePeso
-                });
-            }
-            return data;
-
-        };
-
-
-        var seed_x0 = 123456;
-        var last_random_sort = seed_x0;
-        var a = Math.pow(7,5);
-        var prime_number = 2147483647;
-
-        function calculateRandomNumber(){
-            last_random_sort = (a * last_random_sort)%prime_number;
-            return last_random_sort/Math.pow(2, 31);
-        }
-    </script>
 </head>
 <body>
 
-<div class="container-fluid">
-    <div class="col-md-offset-1 col-md-10" id="container"></div>
+    <div class="container-fluid">
 
-    <div class="col-md-offset-1 col-md-10" id="tools">
-        <div class="container-fluid">
-            <div class="col-md-6">
-                <label for="base_altura">Base Altura</label>
-                <input type="text" class="form-control" id="base_altura" value="150">
-                <br>
+        <form action="index.php" method="post">
+            <div class="row form-group">
+                <div class="col-md-offset-1 col-md-10" id="tools">
 
-                <label for="base_peso">Base Peso</label>
-                <input type="text" class="form-control" id="base_peso" value="70">
-                <br>
-                <button id="refresh" class="btn btn-default" type="submit">Button</button>
+                    <br>
+                    <div class="jumbotron">
+                        <h2>Simulador de sistema de telefonia celular</h2>
+                        <h3><small>Modelagem e Simulação - UFSC 2015/2 - Bruno Freitas e Gustavo Ferreira</small></h3>
+                    </div>
+                    
+                    <h3>Tempo de Simulação</h3>
+                    <input type="number" class="form-control" id="tempo_de_simulacao" name="tempo_de_simulacao" value="100">
+
+                    <div id="body_configurations" class="row">
+                        <!--Torre C1 PORCENTAGENS-->
+                        <div class="col-md-6">
+                            <h3>Torre C1</h3>
+
+                            <label for="canais_c1">Numero de Canais</label>
+                            <input type="number" class="form-control" id="canais_c1" name="canais_c1" value="2">
+
+
+                            <br>
+                            <!--Porcentagens-->
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c1c1">Chamadas C1C1</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c1c1" name="chamadas_c1c1"
+                                               value="50">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c1c2">Chamadas C1C2</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c1c2" name="chamadas_c1c2"
+                                               value="30">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c1fa">Chamadas C1FA</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c1fa" name="chamadas_c1fa"
+                                               value="20">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <!-- Graph porcentagens 
+                            <div class="progress progress_c1 form-group">
+                                <div id="progress_c1c1" class="progress-bar progress-bar-success progress-bar-striped active"
+                                     style="width: 50%">
+                                    C1C1
+                                    <span class="sr-only">50% Complete (success)</span>
+                                </div>
+                                <div id="progress_c1c2" class="progress-bar progress-bar-warning progress-bar-striped active"
+                                     style="width: 30%">
+                                    C1C2
+                                    <span class="sr-only">30% Complete (warning)</span>
+                                </div>
+                                <div id="progress_c1fa" class="progress-bar progress-bar-danger progress-bar-striped active"
+                                     style="width: 20%">
+                                    C1FA
+                                    <span class="sr-only">20% Complete (danger)</span>
+                                </div>
+                            </div>
+
+
+                            <!--Torre C1 PORCENTAGENS-->
+
+                            <!-- Torre c1 CHAMADAS -->
+
+                            <hr>
+                            <h4><span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span> Distribuição dos Tempos Entre
+                                Chamadas - Torre C1</h4>
+
+                            <br>
+
+                            <!-- Argumentos dos Tempos de Chegada -->
+
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="tipo_tempo_entre_chamadas_torre_c1">Função</label>
+                                    <select id="tipo_tempo_entre_chamadas_torre_c1" name="tipo_tempo_entre_chamadas_torre_c1"
+                                            class="form-control">
+                                        <option>Exponencial</option>
+                                        <option selected>Constante</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="tempo_entre_chamadas_arg_torre_c1">Argumento</label>
+                                    <input type="text" class="form-control" id="tempo_entre_chamadas_arg_torre_c1"
+                                           name="tempo_entre_chamadas_arg_torre_c1" value="3">
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <!-- Distribuição dos Tic -->
+
+                            <h4><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Distribuição da Duração de Chamadas -
+                                Torre C1</h4>
+
+                            <select id="tipo_duracao_chamadas_torre_c1" name="tipo_duracao_chamadas_torre_c1" class="form-control">
+                                <option>Normal</option>
+                                <option>Uniforme</option>
+                                <option>Exponencial</option>
+                                <option>Triangular</option>
+                                <option selected>Constante</option>
+                            </select>
+                            <br>
+
+
+                            <!-- Argumentos dos Tempos de Chegada -->
+
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg1_torre_c1">Argumento 1</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg1_torre_c1"
+                                           name="duracao_da_chamada_arg1_torre_c1" value="15">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg2_torre_c1">Argumento 2</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg2_torre_c1"
+                                           name="duracao_da_chamada_arg2_torre_c1" value="5">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg3_torre_c1">Argumento 2</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg3_torre_c1"
+                                           name="duracao_da_chamada_arg3_torre_c1" value="5">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Torre c1 CHAMADAS -->
+
+                        <!-- Torre c2 PORCENTAGENS -->
+                        <div class="col-md-6">
+
+                            <h3>Torre C2</h3>
+
+                            <label for="canais_c2">Numero de Canais</label>
+                            <input type="number" class="form-control" id="canais_c2" name="canais_c2" value="20">
+
+
+                            <br>
+                            <!--Porcentagens-->
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c2c2">Chamadas C2C2</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c2c2" name="chamadas_c2c2"
+                                               value="10">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c2c1">Chamadas C2C1</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c2c1" name="chamadas_c2c1"
+                                               value="20">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="chamadas_c2fa">Chamadas C2FA</label>
+
+                                    <div class="input-group">
+                                        <input type="number" min="0" max="100" class="form-control" id="chamadas_c2fa" name="chamadas_c2fa"
+                                               value="70">
+                                        <span class="input-group-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <!-- Graph porcentagens 
+                            <div class="progress progress_c2">
+                                <div id="progress_c2c2" class="progress-bar progress-bar-success progress-bar-striped active"
+                                     style="width: 50%">
+                                    C2C2
+                                    <span class="sr-only">50% Complete (success)</span>
+                                </div>
+                                <div id="progress_c2c1" class="progress-bar progress-bar-warning progress-bar-striped active"
+                                     style="width: 30%">
+                                    C2C1
+                                    <span class="sr-only">30% Complete (warning)</span>
+                                </div>
+                                <div id="progress_c2fa" class="progress-bar progress-bar-danger progress-bar-striped active"
+                                     style="width: 20%">
+                                    C2FA
+                                    <span class="sr-only">20% Complete (danger)</span>
+                                </div>
+                            </div>
+                            <!-- Torre c2 PORCENTAGENS -->
+
+
+                            <!-- Torre c2 CHAMADAS -->
+                            <hr>
+                            <h4><span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span> Distribuição dos Tempos Entre
+                                Chamadas - Torre C2</h4>
+
+                            <br>
+
+                            <!-- Argumentos dos Tempos de Chegada -->
+
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="tipo_tempo_entre_chamadas_torre_c2">Função</label>
+                                    <select id="tipo_tempo_entre_chamadas_torre_c2" name="tipo_tempo_entre_chamadas_torre_c2"
+                                            class="form-control">
+                                        <option>Exponencial</option>
+                                        <option>Constante</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="tempo_entre_chamadas_arg_torre_c2">Argumento</label>
+                                    <input type="text" class="form-control" id="tempo_entre_chamadas_arg_torre_c2"
+                                           name="tempo_entre_chamadas_arg_torre_c2" value="15">
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <!-- Distribuição dos Tic -->
+
+                            <h4><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Distribuição da Duração de Chamadas -
+                                Torre C1</h4>
+
+                            <select id="tipo_duracao_chamadas_torre_c2" name="tipo_duracao_chamadas_torre_c2" class="form-control">
+                                <option>Normal</option>
+                                <option>Uniforme</option>
+                                <option>Exponencial</option>
+                                <option>Triangular</option>
+                                <option>Constante</option>
+                            </select>
+                            <br>
+
+
+                            <!-- Argumentos dos Tempos de Chegada -->
+
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg1_torre_c2">Argumento 1</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg1_torre_c2"
+                                           name="duracao_da_chamada_arg1_torre_c2" value="15">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg2_torre_c2">Argumento 2</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg2_torre_c2"
+                                           name="duracao_da_chamada_arg2_torre_c2" value="5">
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="duracao_da_chamada_arg3_torre_c2">Argumento 2</label>
+                                    <input type="text" class="form-control" id="duracao_da_chamada_arg3_torre_c2"
+                                           name="duracao_da_chamada_arg3_torre_c2" value="5">
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- Torre c2 CHAMADAS -->
+                    </div>
+
+                    <hr>
+                    <br>
+
+                    <div id="button_run">
+                        <!-- Indicates a successful or positive action -->
+                        <button type="submit" id="button_executar_simulacao" class="btn btn-success center-block">Executar Simulação
+                        </button>
+                    </div>
+
+                </div>
             </div>
-            <div class="col-md-6">
-                <label for="deslocamento_altura">Deslocamento Altura</label>
-                <input type="text" class="form-control" id="deslocamento_altura" value="20">
-                <br>
-                <label for="deslocamento_peso">Deslocamento Peso</label>
-                <input type="text" class="form-control" id="deslocamento_peso" value="30">
-            </div>
+        </form>
 
+        <div class="row">
+            <div id="relatorio" class="col-md-10 col-md-offset-1">
+                <?php
+                define("TORRE_C1", 1);
+                define("TORRE_C2", 2);
+
+                define("CHAMADA_C1C1", 11);
+                define("CHAMADA_C1C2", 12);
+                define("CHAMADA_C1FA", 10);
+
+                define("CHAMADA_C2C2", 22);
+                define("CHAMADA_C2C1", 21);
+                define("CHAMADA_C2FA", 20);
+
+                define("ENTRADA", 50);
+                define("SAIDA", 60);
+
+                define("SEM_CANAL_LIVRE_C1", 71);
+                define("SEM_CANAL_LIVRE_C2", 72);
+
+
+                $tempo_de_simulacao = $_POST["tempo_de_simulacao"];
+                $chamadas_criadas = 0;
+
+                $canais_c1 = intval($_POST['canais_c1']);
+                $canais_livres_c1 = $canais_c1;
+                $chamadas_perdidas_sem_canal_c1 = 0;
+                $chamadas_completadas_c1 = 0;
+                $chamadas_perdidas_fa_c1 = 0;
+
+                $chamadas_c1c1 = intval($_POST['chamadas_c1c1']);
+                $chamadas_c1c2 = intval($_POST['chamadas_c1c2']);
+                $chamadas_c1fa = intval($_POST['chamadas_c1fa']);
+
+                $tipo_tempo_entre_chamadas_torre_c1 = $_POST['tipo_tempo_entre_chamadas_torre_c1'];
+                $tempo_entre_chamadas_arg_torre_c1 = intval($_POST['tempo_entre_chamadas_arg_torre_c1']);
+
+                $tipo_duracao_chamadas_torre_c1 = $_POST['tipo_duracao_chamadas_torre_c1'];
+                $duracao_da_chamada_arg1_torre_c1 = intval($_POST['duracao_da_chamada_arg1_torre_c1']);
+                $duracao_da_chamada_arg2_torre_c1 = intval($_POST['duracao_da_chamada_arg2_torre_c1']);
+                $duracao_da_chamada_arg3_torre_c1 = intval($_POST['duracao_da_chamada_arg3_torre_c1']);
+
+                $canais_c2 = intval($_POST['canais_c2']);
+                $canais_livres_c2 = $canais_c2;
+                $chamadas_perdidas_sem_canal_c2 = 0;
+                $chamadas_completadas_c2 = 0;
+                $chamadas_perdidas_fa_c2 = 0;
+
+                $chamadas_c2c2 = intval($_POST['chamadas_c2c2']);
+                $chamadas_c2c1 = intval($_POST['chamadas_c2c1']);
+                $chamadas_c2fa = intval($_POST['chamadas_c2fa']);
+
+                $tipo_tempo_entre_chamadas_torre_c2 = $_POST['tipo_tempo_entre_chamadas_torre_c2'];
+                $tempo_entre_chamadas_arg_torre_c2 = intval($_POST['tempo_entre_chamadas_arg_torre_c2']);
+
+                $tipo_duracao_chamadas_torre_c2 = $_POST['tipo_duracao_chamadas_torre_c2'];
+                $duracao_da_chamada_arg1_torre_c2 = intval($_POST['duracao_da_chamada_arg1_torre_c2']);
+                $duracao_da_chamada_arg2_torre_c2 = intval($_POST['duracao_da_chamada_arg2_torre_c2']);
+                $duracao_da_chamada_arg3_torre_c2 = intval($_POST['duracao_da_chamada_arg3_torre_c2']);
+
+
+                $array_cronograma = array_fill(0, $tempo_de_simulacao, array());
+                $array_estatisticas = array_fill(0, $tempo_de_simulacao, array());
+
+                $log_to_string = "";
+
+                criacao_de_chamada(TORRE_C2, 0, 0);
+                criacao_de_chamada(TORRE_C1, 0, 0);
+
+
+// Geração das Chamadas
+                for ($tempo_atual = 0; $tempo_atual <= $tempo_de_simulacao; $tempo_atual++) {
+
+                    if (!empty($array_cronograma[$tempo_atual])) {
+
+                        foreach ($array_cronograma[$tempo_atual] as $key => $evento) {
+
+                            $torre = constante_to_string($evento['torre']);
+                            $tipo = constante_to_string($evento['tipo']);
+                            $duracao = $evento['duracao'];
+                            $entrada_50 = constante_to_string($evento['entrada_50']);
+                            $sem_canal_livre = constante_to_string($evento['sem_canal_livre']);
+                            $id_chamada = $evento['id_chamada'];
+
+                            $cor = '';
+                            if ($evento['sem_canal_livre'])
+                                $cor = 'warning';
+
+
+
+                            $log_to_string = $log_to_string . "<tr class=$cor>
+                                                    <td>$tempo_atual</td>
+                                                    <td>$id_chamada</td>
+                                                    <td>$torre</td>
+                                                    <td>$tipo</td>
+                                                    <td>$duracao</td>
+                                                    <td>$entrada_50</td>
+                                                    <td>$sem_canal_livre</td>
+                                               </tr>";
+
+
+                            if ($evento["torre"] == TORRE_C1) {
+                                if ($evento["entrada_50"] == ENTRADA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C1) {
+
+                                    $canais_livres_c1--;
+                                    if ($canais_livres_c1 < 0)
+                                        $canais_livres_c1 = 0;
+                                }
+
+                                if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C1) {
+                                    $canais_livres_c1++;
+                                    if ($canais_livres_c1 > $canais_c1)
+                                        $canais_livres_c1 = $canais_c1;
+
+                                    if ($evento["tipo"] != CHAMADA_C1FA) {
+                                        $chamadas_completadas_c1++;
+                                    } else {
+                                        $chamadas_perdidas_fa_c1++;
+                                    }
+                                }
+                            }
+
+                            if ($evento["torre"] == TORRE_C2) {
+                                if ($evento["entrada_50"] == ENTRADA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
+                                    $canais_livres_c2--;
+                                    if ($canais_livres_c2 < 0)
+                                        $canais_livres_c2 = 0;
+                                }
+
+                                if ($evento["entrada_50"] == SAIDA && $evento["sem_canal_livre"] != SEM_CANAL_LIVRE_C2) {
+                                    $canais_livres_c2++;
+                                    if ($canais_livres_c2 > $canais_c2)
+                                        $canais_livres_c2 = $canais_c2;
+
+                                    if ($evento["tipo"] != CHAMADA_C2FA) {
+                                        $chamadas_completadas_c2++;
+                                    } else {
+                                        $chamadas_perdidas_fa_c2++;
+                                    }
+                                }
+                            }
+
+                            if ($evento["entrada_50"] == ENTRADA && !array_key_exists('half', $evento)) {
+                                if ($evento["torre"] == TORRE_C1) {
+                                    if ($canais_livres_c1 > 0) {
+                                        criacao_de_chamada($evento['torre'], $tempo_atual, 0);
+                                    } else {
+                                        criacao_de_chamada($evento['torre'], $tempo_atual, SEM_CANAL_LIVRE_C1);
+                                        $chamadas_perdidas_sem_canal_c1++;
+                                    }
+                                }
+
+                                if ($evento["torre"] == TORRE_C2) {
+                                    if ($canais_livres_c2 > 0) {
+                                        criacao_de_chamada($evento['torre'], $tempo_atual, 0);
+                                    } else {
+                                        criacao_de_chamada($evento['torre'], $tempo_atual, SEM_CANAL_LIVRE_C2);
+                                        $chamadas_perdidas_sem_canal_c2++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    // Estatísticas
+                    if (array_key_exists($tempo_atual, $array_estatisticas) && !is_null($array_estatisticas[$tempo_atual])) {
+                        array_push($array_estatisticas[$tempo_atual], array("canais_livres_c1" => $canais_livres_c1, "canais_livres_c2" => $canais_livres_c2));
+                    }
+                    
+                }
+
+                $numero_de_chamadas_min_c1 = 9999;
+                $numero_de_chamadas_min_c2 = 9999;
+
+                $numero_de_chamadas_max_c1 = -9999;
+                $numero_de_chamadas_max_c2 = -9999;
+
+                $numero_de_chamadas_medio_c1 = 0;
+                $numero_de_chamadas_medio_c2 = 0;
+                
+                $numero_de_chamadas_medio_c1_pct = 0;
+                $numero_de_chamadas_medio_c2_pct = 0;
+
+                foreach ($array_estatisticas as $key => $tempo_atual) {
+
+
+
+                    if (!is_null($tempo_atual)) {
+                        //var_dump($tempo_atual);
+
+                        $canais_livres_c1 = !is_null($tempo_atual[0]) ? $tempo_atual[0]['canais_livres_c1'] : 0;
+                        $canais_livres_c2 = !is_null($tempo_atual[0]) ? $tempo_atual[0]['canais_livres_c2'] : 0;
+
+                        $ocupados_c1 = $canais_c1 - $canais_livres_c1;
+                        $ocupados_c2 = $canais_c2 - $canais_livres_c2;
+
+                        if ($ocupados_c1 < $numero_de_chamadas_min_c1)
+                            $numero_de_chamadas_min_c1 = $ocupados_c1;
+
+                        if ($ocupados_c2 < $numero_de_chamadas_min_c2)
+                            $numero_de_chamadas_min_c2 = $ocupados_c2;
+
+                        if ($ocupados_c1 > $numero_de_chamadas_max_c1)
+                            $numero_de_chamadas_max_c1 = $ocupados_c1;
+
+                        if ($ocupados_c2 > $numero_de_chamadas_max_c2)
+                            $numero_de_chamadas_max_c2 = $ocupados_c2;
+
+                        $numero_de_chamadas_medio_c1 = $numero_de_chamadas_medio_c1 + $ocupados_c1;
+                        $numero_de_chamadas_medio_c2 = $numero_de_chamadas_medio_c2 + $ocupados_c2;
+
+                        //var_dump("canais " . $canais_c2 . " ocupados " . $ocupados_c2 . " max c2 " . $numero_de_chamadas_max_c2);
+                    }
+                }
+
+                $numero_de_chamadas_medio_c1 = ($numero_de_chamadas_medio_c1 / $tempo_de_simulacao) / $canais_c1;
+                $numero_de_chamadas_medio_c2 = ($numero_de_chamadas_medio_c2 / $tempo_de_simulacao) / $canais_c2;
+                
+                $numero_de_chamadas_medio_c1_pct = ($numero_de_chamadas_medio_c1/$canais_c1) * 100;
+                $numero_de_chamadas_medio_c2_pct = ($numero_de_chamadas_medio_c2/$canais_c2) * 100;
+
+//var_dump($array_cronograma, $chamadas_perdidas_sem_canal_c1, $chamadas_perdidas_sem_canal_c2);
+//var_dump($array_estatisticas);
+
+                function criacao_de_chamada($torre, $tempo_atual, $sem_canal) {
+
+                    global $array_cronograma;
+                    global $chamadas_criadas;
+
+                    $chamadas_criadas++;
+
+                    $tempo = sortear_proximo_tempo($torre) + $tempo_atual;
+                    $tipo = sortear_tipo_de_chamada($torre);
+                    $duracao = sortear_duracao_chamada($torre);
+
+                    if ($sem_canal == SEM_CANAL_LIVRE_C1 || $sem_canal == SEM_CANAL_LIVRE_C2) {
+                        $duracao = 0;
+                    }
+
+                    $duracao_metade = intval($duracao / 2);
+
+                    //var_dump("tempo " . $tempo, "tipo " . $tipo, "metade " . $duracao_metade, "duracao " . $duracao);
+
+                    if ($torre == TORRE_C1) {
+                        if ($tipo == CHAMADA_C1C1) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+
+                        if ($tipo == CHAMADA_C1C2) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "half" => true,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade + $duracao_metade], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "half" => true,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+
+                        if ($tipo == CHAMADA_C1FA) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+                    }
+
+                    if ($torre == TORRE_C2) {
+                        if ($tipo == CHAMADA_C2C2) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+                            if (array_key_exists($tempo + $duracao, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+
+                        if ($tipo == CHAMADA_C2C1) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "half" => true,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+
+                            if (array_key_exists($tempo + $duracao_metade + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade + $duracao_metade], array("torre" => TORRE_C1,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "half" => true,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+
+                        if ($tipo == CHAMADA_C2FA) {
+
+                            if (array_key_exists($tempo, $array_cronograma))
+                                array_push($array_cronograma[$tempo], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => $duracao_metade,
+                                    "entrada_50" => ENTRADA,
+                                    "sem_canal_livre" => $sem_canal));
+
+
+                            if (array_key_exists($tempo + $duracao_metade, $array_cronograma))
+                                array_push($array_cronograma[$tempo + $duracao_metade], array("torre" => TORRE_C2,
+                                    "tipo" => $tipo,
+                                    "id_chamada" => $chamadas_criadas,
+                                    "duracao" => 0,
+                                    "entrada_50" => SAIDA,
+                                    "sem_canal_livre" => $sem_canal));
+                        }
+                    }
+                }
+
+                function sortear_proximo_tempo($torre) {
+                    global $tipo_tempo_entre_chamadas_torre_c1;
+                    global $tipo_tempo_entre_chamadas_torre_c2;
+
+                    global $tempo_entre_chamadas_arg_torre_c1;
+                    global $tempo_entre_chamadas_arg_torre_c2;
+
+                    //var_dump($tipo_tempo_entre_chamadas_torre_c1, $tempo_entre_chamadas_arg_torre_c1);
+
+
+                    if ($torre == TORRE_C1) {
+                        if (strcmp($tipo_tempo_entre_chamadas_torre_c1, 'Constante') == 0) {
+                            return $tempo_entre_chamadas_arg_torre_c1;
+                        }
+                        return exponencial($tempo_entre_chamadas_arg_torre_c1);
+                    }
+
+                    if ($torre == TORRE_C2) {
+                        if (strcmp($tipo_tempo_entre_chamadas_torre_c2, 'Constante') == 0) {
+                            return $tempo_entre_chamadas_arg_torre_c2;
+                        }
+                        return exponencial($tempo_entre_chamadas_arg_torre_c2);
+                    }
+                }
+
+                function sortear_tipo_de_chamada($torre) {
+                    global $chamadas_c1c1;
+                    global $chamadas_c1c2;
+                    global $chamadas_c1fa;
+
+                    global $chamadas_c2c2;
+                    global $chamadas_c2c1;
+                    global $chamadas_c2fa;
+
+                    $random_roll = rand(1, 100);
+
+                    if ($torre == TORRE_C1) {
+                        if ($random_roll <= $chamadas_c1c1)
+                            return CHAMADA_C1C1;
+                        if ($random_roll <= $chamadas_c1c2 + $chamadas_c1c1)
+                            return CHAMADA_C1C2;
+                        return CHAMADA_C1FA;
+                    }
+
+                    if ($torre == TORRE_C2) {
+                        if ($random_roll <= $chamadas_c2c2)
+                            return CHAMADA_C2C2;
+                        if ($random_roll <= $chamadas_c2c1 + $chamadas_c2c2)
+                            return CHAMADA_C2C1;
+                        return CHAMADA_C2FA;
+                    }
+                }
+
+                function sortear_duracao_chamada($torre) {
+                    global $tipo_duracao_chamadas_torre_c1;
+                    global $duracao_da_chamada_arg1_torre_c1;
+                    global $duracao_da_chamada_arg2_torre_c1;
+                    global $duracao_da_chamada_arg3_torre_c1;
+
+                    global $tipo_duracao_chamadas_torre_c2;
+                    global $duracao_da_chamada_arg1_torre_c2;
+                    global $duracao_da_chamada_arg2_torre_c2;
+                    global $duracao_da_chamada_arg3_torre_c2;
+
+                    if ($torre == TORRE_C1) {
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Normal') == 0) {
+                            return normal($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Uniforme') == 0) {
+                            return uniforme($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Exponencial') == 0) {
+                            return exponencial($duracao_da_chamada_arg1_torre_c1);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Triangular') == 0) {
+                            return triangular($duracao_da_chamada_arg1_torre_c1, $duracao_da_chamada_arg2_torre_c1, $duracao_da_chamada_arg3_torre_c1);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c1, 'Constante') == 0) {
+                            return $duracao_da_chamada_arg1_torre_c1;
+                        }
+                    }
+
+                    if ($torre == TORRE_C2) {
+                        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Normal') == 0) {
+                            return normal($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Uniforme') == 0) {
+                            return uniforme($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Exponencial') == 0) {
+                            return exponencial($duracao_da_chamada_arg1_torre_c2);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Triangular') == 0) {
+                            return triangular($duracao_da_chamada_arg1_torre_c2, $duracao_da_chamada_arg2_torre_c2, $duracao_da_chamada_arg3_torre_c2);
+                        }
+
+                        if (strcmp($tipo_duracao_chamadas_torre_c2, 'Constante') == 0) {
+                            return $duracao_da_chamada_arg1_torre_c2;
+                        }
+                    }
+                }
+
+//FUNÇÃO NORMAL:
+
+                function normal($mean, $sd) {
+                    $x = mt_rand() / mt_getrandmax();
+                    $y = mt_rand() / mt_getrandmax();
+                    $return = sqrt(-2 * log($x)) * cos(2 * pi() * $y) * $sd + $mean;
+                    return intval($return);
+                }
+
+//FUNÇÃO UNIFORME
+
+                function uniforme($max, $min) {
+                    $return = mt_rand($min, $max);
+                    return intval($return);
+                }
+
+//FUNÇÃO EXPONENCIAL
+
+                function exponencial($r) {
+
+                    $u = mt_rand(0, mt_getrandmax() - 1) / mt_getrandmax();
+                    $x = log(1 - $u) / (-$r);
+                    $return = $x;
+                    return intval($return);
+                }
+
+//FUNÇÃO TRIANGULAR
+
+                function triangular($a, $b, $c) {
+
+                    $u = mt_rand(0, mt_getrandmax() - 1) / mt_getrandmax();
+                    $f = ($c - $a) / ($b - $a);
+                    if ($u < $f) {
+                        $return = ($a + sqrt($u * ($b - $a) * ($c - $a)));
+                        return intval($return);
+                    } else {
+                        $return = ($b - sqrt((1 - $u) * ($b - $a) * ($b - $c)));
+                        return intval($return);
+                    }
+                }
+
+                function constante_to_string($constante) {
+
+                    switch ($constante) {
+                        case TORRE_C1:
+                            return "TORRE C1";
+                        case TORRE_C2:
+                            return "TORRE C2";
+
+                        case CHAMADA_C1C1:
+                            return "CHAMADA C1C1";
+                        case CHAMADA_C1C2:
+                            return "CHAMADA C1C2";
+                        case CHAMADA_C1FA:
+                            return "CHAMADA C1FA";
+                        case CHAMADA_C2C2:
+                            return "CHAMADA C2C2";
+                        case CHAMADA_C2C1:
+                            return "CHAMADA C2C1";
+                        case CHAMADA_C2FA:
+                            return "CHAMADA C2FA";
+
+                        case ENTRADA:
+                            return "ENTRADA";
+                        case SAIDA:
+                            return "SAIDA";
+
+                        case SEM_CANAL_LIVRE_C1:
+                            return "SEM CANAL LIVRE C1";
+                        case SEM_CANAL_LIVRE_C2:
+                            return "SEM CANAL LIVRE C2";
+                        default:
+                            return " - ";
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Torre C1</h3>
+                        <hr/>
+
+                        <p><strong>Chamadas no Sistema C1 min: </strong><?= $numero_de_chamadas_min_c1 ?></p>
+                        <p><strong>Chamadas no Sistema C1 max: </strong><?= $numero_de_chamadas_max_c1 ?></p>
+                        <p><strong>Chamadas no Sistema C1 Media: </strong><?= $numero_de_chamadas_medio_c1 . " ($numero_de_chamadas_medio_c1_pct % - taxa média)" ?></p>
+                        <br>
+                        <p><strong>Chamadas Completas C1: </strong><?= $chamadas_completadas_c1 ?></p>
+                        <p><strong>Chamadas perdidas falta de canal C1: </strong><?= $chamadas_perdidas_sem_canal_c1 ?></p>
+                        <p><strong>Chamadas perdidas fora de cobertura C1: </strong><?= $chamadas_perdidas_fa_c1 ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>Torre C2</h3>
+                        <hr/>
+                        <p><strong>Chamadas no Sistema C2 min: </strong><?= $numero_de_chamadas_min_c2 ?></p>
+                        <p><strong>Chamadas no Sistema C2 max: </strong><?= $numero_de_chamadas_max_c2 ?></p>
+                        <p><strong>Chamadas Sistema C2 Media: </strong><?= $numero_de_chamadas_medio_c2 . " ($numero_de_chamadas_medio_c2_pct % - taxa média)"?></p>
+                        <br>
+                        <p><strong>Chamadas Completas C2: </strong><?= $chamadas_completadas_c2 ?></p>
+                        <p><strong>Chamadas perdidas falta de canal C2: </strong><?= $chamadas_perdidas_sem_canal_c2 ?></p>
+                        <p><strong>Chamadas perdidas fora de cobertura C2: </strong><?= $chamadas_perdidas_fa_c2 ?></p>
+                    </div>
+
+                </div>
+
+
+
+                <br/>    
+                <h3>Estatísticas Totais</h3>
+                <hr/>
+                <p><strong>Chamadas Completas Total: </strong><?= $chamadas_completadas_c1 + $chamadas_completadas_c2 ?></p>
+                <p><strong>Chamadas perdidas falta de canal Total: </strong><?= $chamadas_perdidas_sem_canal_c1 + $chamadas_perdidas_sem_canal_c2 ?></p>
+                <p><strong>Chamadas perdidas fora de cobertura Total: </strong><?= $chamadas_perdidas_fa_c1 + $chamadas_perdidas_fa_c2 ?></p>
+
+                <br/>
+
+
+
+
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <td>Tempo Atual</td>
+                            <td>ID Chamada</td>
+                            <td>Torre</td>
+                            <td>Tipo</td>
+                            <td>Duracao</td>
+                            <td>Evento</td>
+                            <td>Rejeitada</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+<?php
+echo $log_to_string;
+?>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
 
 
-
     </div>
-</div>
 </body>
