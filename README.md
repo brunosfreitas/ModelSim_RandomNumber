@@ -1,7 +1,7 @@
 # ModelSim_RandomNumber
 
-Simulador de sistema de telefonia celular
-Modelagem e Simulação - UFSC 2015/2 - Bruno Freitas e Gustavo Ferreira
+##Simulador de sistema de telefonia celular
+###Modelagem e Simulação - UFSC 2015/2 - Bruno Freitas e Gustavo Ferreira
 
 Como Utilizar:
 
