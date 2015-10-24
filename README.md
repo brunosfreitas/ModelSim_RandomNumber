@@ -36,7 +36,7 @@ Como Utilizar:
  Uma tabela com todas as ocorrencias da fila do simulador.
  
  
- ##Diagrama de fluxo 
+##Diagrama de fluxo 
  
 Após obter os dados do usuário o sistema cria um array contendo os tempos de 0 a "tempo de simulação". Em seguida ele gera as primeiras chamadas em C1 e C2. Quando uma chamada é terminada (SAIDA) uma nova chamada é criada para aquela torre. E assim o programa itera sobre este array verificando as saidas de chamadas e gerando suas estatísticas e atualizando estatísticas globais e criando uma nova chamada.
 
